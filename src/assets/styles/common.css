@@ -1,0 +1,23 @@
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.ovh {
+  overflow: hidden;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hover-effect:hover {
+  /* background: rgba(0, 0, 0, 0.03); */
+  background-color: #f6f6f6;
+  cursor: pointer;
+}
