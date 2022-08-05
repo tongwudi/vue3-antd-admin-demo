@@ -1,19 +1,19 @@
+// 设置永久缓存
 export const setLocal = (key, val) => {
-  if (typeof val === 'object') {
-    localStorage.setItem(key, JSON.stringify(val))
-  } else {
-    localStorage.setItem(key, val)
-  }
+  localStorage.setItem(key, JSON.stringify(val))
 }
 
+// 获取永久缓存
 export const getLocal = key => {
-  let valStr = localStorage.getItem(key)
-  if (valStr) {
-    return typeof valStr === 'object' ? JSON.parse(valStr) : valStr
-  }
-  return null
+  return localStorage.getItem(key)
 }
 
-export const clearLocal = key => {
+// 移除永久缓存
+export const removeLocal = key => {
   localStorage.removeItem(key)
+}
+
+// 移除全部永久缓存
+export const clearLocal = () => {
+  localStorage.clear()
 }

@@ -8,36 +8,36 @@ export const constantRoutes = [
   {
     path: '/',
     name: 'Home',
-    meta: { title: '首页', icon: 'dashboard' },
+    meta: { title: '首页', icon: '', noMultilevel: true },
     component: Layout,
-    redirect: '/dashboard',
+    // redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
         name: 'dashboard',
-        meta: { title: '仪表盘', icon: '' },
-        component: () => import(/* webpackChunkName: "index" */ '@/views/dashboard/index.vue')
-      },
+        meta: { title: '首页' },
+        component: () =>
+          import(/* webpackChunkName: "index" */ '@/views/dashboard/index.vue')
+      }
     ]
   },
   {
     path: '/login',
     name: 'Login',
     meta: { title: '登录' },
-    component: Login
+    component: Login,
+    hidden: true
   },
   {
     path: '/403',
-    component: Forbidden
-  },
-  {
-    path: '/404',
-    component: NotFound
+    component: Forbidden,
+    hidden: true
   },
   // vue2 使用 *
   // vue3 使用 '/:catchAll(.*)' 或 '/:pathMatch(.*)'
   {
-    path: '/:catchAll(.*)', // 不识别的path自动匹配404
-    redirect: '/404'
+    path: '/:pathMatch(.*)', // 不识别的path自动匹配404
+    component: NotFound,
+    hidden: true
   }
 ]

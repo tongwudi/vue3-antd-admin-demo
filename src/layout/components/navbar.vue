@@ -1,135 +1,96 @@
 <template>
-  <a-row class="navbar" align="middle">
-    <div class="collapse-trigger hover-effect" @click="toggleCollapse">
+  <a-row class="header-left" align="middle">
+    <div
+      class="collapse-btn hover-effect"
+      @click="emit('update:collapsed', !collapsed)"
+    >
       <MenuUnfoldOutlined v-if="collapsed" />
       <MenuFoldOutlined v-else />
     </div>
     <a-breadcrumb>
       <a-breadcrumb-item>Ant Design Vue</a-breadcrumb-item>
       <a-breadcrumb-item><a href="">Component</a></a-breadcrumb-item>
-      <a-breadcrumb-item>
-        <a href="">General</a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://www.alipay.com/"
-                >General</a
-              >
-            </a-menu-item>
-            <a-menu-item>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://www.taobao.com/"
-                >Layout</a
-              >
-            </a-menu-item>
-            <a-menu-item>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://www.tmall.com/"
-                >Navigation</a
-              >
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-breadcrumb-item>
       <a-breadcrumb-item>Button</a-breadcrumb-item>
     </a-breadcrumb>
   </a-row>
 
-  <a-dropdown class="dropdown-trigger hover-effect">
-    <div>
-      <a-avatar :src="avatarSrc" />
-      <span class="dropdown-text">桐无敌</span>
+  <a-row class="header-right" align="middle">
+    <a-dropdown :trigger="['click']" placement="bottom" class="hover-effect">
+      <div>
+        <a-avatar :size="28" :src="avatarSrc" />
+        <span class="dropdown-text">桐无敌</span>
+      </div>
+      <template #overlay>
+        <a-menu>
+          <a-menu-item key="1">
+            <UserOutlined />
+            1st menu item
+          </a-menu-item>
+          <a-menu-divider />
+          <a-menu-item key="2">
+            <UserOutlined />
+            2nd menu item
+          </a-menu-item>
+          <a-menu-item key="3">
+            <UserOutlined />
+            3rd item
+          </a-menu-item>
+          <a-menu-item key="4">
+            <UserOutlined />
+            3rd item
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
+    <div class="setting-btn hover-effect">
+      <SettingOutlined />
     </div>
-    <template #overlay>
-      <a-menu>
-        <a-menu-item key="1">
-          <UserOutlined />
-          1st menu item
-        </a-menu-item>
-        <a-menu-divider />
-        <a-menu-item key="2">
-          <UserOutlined />
-          2nd menu item
-        </a-menu-item>
-        <a-menu-item key="3">
-          <UserOutlined />
-          3rd item
-        </a-menu-item>
-        <a-menu-item key="4">
-          <UserOutlined />
-          3rd item
-        </a-menu-item>
-      </a-menu>
-    </template>
-  </a-dropdown>
+  </a-row>
 </template>
 
-<script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-// import {
-//   MenuFoldOutlined,
-//   MenuUnfoldOutlined,
-//   UserOutlined
-// } from '@ant-design/icons-vue'
+<script setup>
+defineProps({
+  collapsed: { type: Boolean }
+})
+const avatarSrc = require('@/assets/img/avatar.png')
+// const avatarSrc = 'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif?imageView2/1/w/80/h/80'
 
-export default {
-  emits: ['toggleCollapse'],
-  setup(props, { emit }) {
-    // const avatarSrc = require('@/assets/img/avatar.png')
-    const avatarSrc =
-      'https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif?imageView2/1/w/80/h/80'
-
-    const { state } = useStore()
-    const { collapsed } = computed(() => state.app)
-
-    const toggleCollapse = () => {
-      emit('toggleCollapse')
-    }
-
-    return {
-      avatarSrc,
-      collapsed,
-      toggleCollapse
-    }
-  }
-}
+const emit = defineEmits(['update:collapsed'])
 </script>
 
 <style lang="scss" scoped>
-.navbar {
+.header-left {
   height: 100%;
-}
-.collapse-trigger {
-  width: $nav-height;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .anticon {
-    font-size: 16px;
-    color: #000;
+  .collapse-btn {
+    width: $nav-height;
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .anticon {
+      font-size: 18px;
+      color: #000;
+    }
   }
 }
-.dropdown-trigger {
+.header-right {
   height: 100%;
-  display: flex;
-  align-items: center;
-  .dropdown-text {
-    margin-left: 8px;
-    vertical-align: middle;
+  .ant-dropdown-trigger {
+    padding: 0 10px;
+    .dropdown-text {
+      margin-left: 5px;
+    }
   }
-}
-.collapse-trigger,
-// .ant-breadcrumb,
-.dropdown-trigger {
-  padding: 0 10px;
+  .setting-btn {
+    height: 100%;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .anticon {
+      font-size: 18px;
+    }
+  }
 }
 </style>
