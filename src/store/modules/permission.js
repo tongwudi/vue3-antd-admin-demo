@@ -1,7 +1,6 @@
-import { setLocal, getLocal, removeLocal } from '@/utils/storage'
-import router from '@/router/index'
+import { setLocal, getLocal, removeLocal, clearLocal } from '@/utils/storage'
 import { constantRoutes } from '@/router/constant-routes'
-import { dynamicRoutes } from '@/router/dynamic-router'
+// import { dynamicRoutes } from '@/router/dynamic-router'
 import { fetchMemu } from '@/api/index'
 
 const permission = {
@@ -19,32 +18,35 @@ const permission = {
       state.token = null
       removeLocal('token')
     },
-    setRoutes(state, routes) {
-      // state.routes = constantRoutes.concat(routes)
-      state.routes = routes
+    SET_ROUTES(state, routes) {
+      state.routes = constantRoutes.concat(routes)
     }
   },
   actions: {
+    // // 根据权限生成菜单
+    // async generateRouter({ commit }) {
+    //   // 获取路由数据
+    //   const { data: asyncRoutes } = await fetchMemu()
+    //   // 筛选匹配路由
+    //   let accessedRouters = filterAsyncRoutes(asyncRoutes, dynamicRoutes)
+    //   // 全部路由
+    //   commit('SET_ROUTES', accessedRouters)
+    //   return accessedRouters
+    // },
     // 根据权限生成菜单
     async generateRouter({ commit }) {
+      // 获取路由数据
       const { data: asyncRoutes } = await fetchMemu()
-      formatRoute(asyncRoutes)
-      // let routes = filterAsyncRoutes(asyncRoutes, dynamicRoutes)
-      // let MainContainer = constantRoutes.find(v => v.path === '/')
-      // let children = MainContainer.children
-      // children.push(...routes)
-
-      // commit('setRoutes', children)
-      // console.log(constantRoutes)
-
-      // constantRoutes.forEach(route => {
-      //   router.addRoute(route)
-      // })
+      // 组装路由
+      const accessedRouters = formatRoute(asyncRoutes)
+      // 全部路由
+      commit('SET_ROUTES', accessedRouters)
+      return accessedRouters
     },
     // 退出登录
     logout(context) {
       setTimeout(() => {
-        context.commit('clearToken')
+        clearLocal()
       }, 500)
     }
   }
@@ -60,16 +62,26 @@ const formatRoute = routes => {
       const menuObj = {
         path: route.path,
         name: route.name,
-        component: require(`@/views/${route.component}.vue`).default,
-        // component: modules(`@/views/${route.component}.vue`),
         meta: {
           icon: route.icon,
           title: route.title
         }
       }
+
+      if (route.component === 'Layout') {
+        menuObj.component = require(`@/layout/index.vue`).default
+      } else {
+        menuObj.component = require(`@/views/${route.component}.vue`).default
+        // menuObj.component: modules(`@/views/${route.component}.vue`),
+      }
+      route.noMultilevel && (menuObj.meta.noMultilevel = route.noMultilevel)
       route.redirect && (menuObj.redirect = route.redirect)
 
       menuList.push(menuObj)
+
+      if (route.children) {
+        menuObj.children = formatRoute(route.children)
+      }
     })
   }
   return menuList

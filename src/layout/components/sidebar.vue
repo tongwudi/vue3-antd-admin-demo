@@ -14,20 +14,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-// import { useStore } from 'vuex'
+import { ref, computed } from 'vue'
+// import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import SidebarItem from './sidebarItem.vue'
 import { setLocal } from '@/utils/storage'
 
-// const store = useStore()
-// const routes = store.state.routes
-
-const { options } = useRouter()
-const routes = options.routes
+const { state } = useStore()
+const routes = computed(() => state.permission.routes)
+// const { options } = useRouter()
+// const routes = options.routes
 
 const openKeys = ref(JSON.parse(localStorage.getItem('openKeys')) || [])
-const selectedKeys = ref([JSON.parse(localStorage.getItem('selectedKeys'))] || [])
+const selectedKeys = ref(
+  [JSON.parse(localStorage.getItem('selectedKeys'))] || []
+)
 
 const openChangeMenu = openKeys => {
   setLocal('openKeys', openKeys)

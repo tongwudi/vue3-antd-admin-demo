@@ -19,25 +19,25 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next('/')
     } else {
-      const setRoutes = store.getters.setRoutes
-      if (!setRoutes) {
-        try {
-          store.dispatch('permission/generateRouter')
-          next()
-          // hack方法 确保addRoutes已完成
-          // next({ ...to, replace: true })
-        } catch (err) {
-          console.log(err)
-          // 请求失败，移除 token 并跳转登录页
-          store.dispatch('permission/logout')
-          next(`/login?redirect=${to.path}`)
-        }
+      const hasRoutes = store.getters.hasRoutes
+      if (!hasRoutes) {
+        store
+          .dispatch('permission/generateRouter')
+          .then(routes => {
+            // 动态添加可访问路由表
+            routes.forEach(route => {
+              router.addRoute(route)
+            })
+            // hack方法 确保 addRoute 已完成
+            next({ ...to, replace: true })
+          })
+          .catch(err => {
+            console.log(err)
+            // 请求失败，移除 token 并跳转登录页
+            store.dispatch('permission/logout')
+            next(`/login?redirect=${to.path}`)
+          })
       } else {
-        // if (to.matched.length === 0) {
-        //   from.name ? next({ name: from.name }) : next('/404');
-        // } else {
-        //   next();
-        // }
         next()
       }
     }

@@ -6,7 +6,7 @@ import Antd from 'ant-design-vue'
 
 import 'ant-design-vue/dist/antd.css'
 import '@/assets/styles/index.scss'
-// import '@/router/permission'
+import '@/router/permission'
 
 const app = createApp(App)
 
