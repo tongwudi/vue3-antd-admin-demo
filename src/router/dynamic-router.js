@@ -7,7 +7,6 @@ export const dynamicRoutes = [
     name: 'order',
     meta: { title: '订单管理', icon: '' },
     component: Layout,
-    // redirect: '/order/list',
     children: [
       {
         path: 'list',
@@ -30,7 +29,6 @@ export const dynamicRoutes = [
     name: 'goods',
     meta: { title: '商品管理', icon: '' },
     component: Layout,
-    // redirect: '/goods/list',
     children: [
       {
         path: 'list',
@@ -53,7 +51,6 @@ export const dynamicRoutes = [
     name: 'news',
     meta: { title: '新闻管理', icon: '' },
     component: Layout,
-    // redirect: '/news/list',
     children: [
       {
         path: 'list',
@@ -69,7 +66,6 @@ export const dynamicRoutes = [
     name: 'user',
     meta: { title: '用户管理', icon: '' },
     component: Layout,
-    // redirect: '/user/list',
     children: [
       {
         path: 'list',
@@ -85,7 +81,6 @@ export const dynamicRoutes = [
     name: 'system',
     meta: { title: '系统配置', icon: '', noMultilevel: true },
     component: Layout,
-    // redirect: '/system/index',
     children: [
       {
         path: 'index',
@@ -101,7 +96,6 @@ export const dynamicRoutes = [
     name: 'about',
     meta: { title: '关于', icon: '', noMultilevel: true },
     component: Layout,
-    // redirect: '/about/index',
     children: [
       {
         path: 'index',

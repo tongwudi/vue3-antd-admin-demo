@@ -1,27 +1,25 @@
 <template>
   <a-menu-item
-    v-if="hasOnlyChild(item.children, item)"
-    :key="formatPath(item.path)"
+    v-if="hasOnlyChild(menu.children, menu)"
+    :key="formatPath(onlyOneChild.path)"
   >
     <template #icon>
       <PieChartOutlined />
     </template>
-    <router-link :to="formatPath(onlyOneChild.path)">
-      {{ onlyOneChild.meta && onlyOneChild.meta.title }}
-    </router-link>
+    <span>{{ onlyOneChild.meta && onlyOneChild.meta.title }}</span>
   </a-menu-item>
 
-  <a-sub-menu v-else :key="item.path">
+  <a-sub-menu v-else :key="menu.path">
     <template #icon>
       <MailOutlined />
     </template>
-    <template #title>{{ item.meta && item.meta.title }}</template>
+    <template #title>{{ menu.meta && menu.meta.title }}</template>
 
     <SidebarItem
-      v-for="child in item.children"
+      v-for="child in menu.children"
       :key="child.path"
-      :item="child"
-      :parent-path="item.path"
+      :menu="child"
+      :parent-path="menu.path"
     />
   </a-sub-menu>
 </template>
@@ -30,7 +28,7 @@
 import { ref } from 'vue'
 
 const props = defineProps({
-  item: {
+  menu: {
     type: Object,
     required: true
   },

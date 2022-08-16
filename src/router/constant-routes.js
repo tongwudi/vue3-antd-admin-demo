@@ -6,11 +6,18 @@ import NotFound from '@/views/errorPage/404.vue'
 // 公共路由
 export const constantRoutes = [
   {
+    path: '/login',
+    name: 'Login',
+    meta: { title: '登录' },
+    component: Login,
+    hidden: true
+  },
+  {
     path: '/',
     name: 'Home',
     meta: { title: '首页', icon: '', noMultilevel: true },
     component: Layout,
-    // redirect: '/dashboard',
+    redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
@@ -20,13 +27,6 @@ export const constantRoutes = [
           import(/* webpackChunkName: "index" */ '@/views/dashboard/index.vue')
       }
     ]
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    meta: { title: '登录' },
-    component: Login,
-    hidden: true
   },
   {
     path: '/403',

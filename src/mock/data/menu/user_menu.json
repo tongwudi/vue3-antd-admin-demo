@@ -1,0 +1,85 @@
+{
+  "code": 200,
+  "message": "获取成功",
+  "data": [
+    {
+      "name": "order",
+      "path": "/order",
+      "title": "订单管理",
+      "icon": "",
+      "component": "Layout",
+      "children": [
+        {
+          "name": "orderList",
+          "path": "list",
+          "title": "订单列表",
+          "icon": "",
+          "component": "order/list"
+        },
+        {
+          "name": "orderAudit",
+          "path": "audit",
+          "title": "订单审核",
+          "icon": "",
+          "component": "order/audit"
+        }
+      ]
+    },
+    {
+      "name": "goods",
+      "path": "/goods",
+      "title": "商品管理",
+      "icon": "",
+      "component": "Layout",
+      "children": [
+        {
+          "name": "goodsList",
+          "path": "list",
+          "title": "商品列表",
+          "icon": "",
+          "component": "goods/list"
+        },
+        {
+          "name": "goodsAudit",
+          "path": "audit",
+          "title": "商品审核",
+          "icon": "",
+          "component": "goods/audit"
+        }
+      ]
+    },
+    {
+      "name": "news",
+      "path": "/news",
+      "title": "新闻管理",
+      "icon": "",
+      "component": "Layout",
+      "children": [
+        {
+          "name": "newsList",
+          "path": "list",
+          "title": "新闻列表",
+          "icon": "",
+          "component": "news/list"
+        }
+      ]
+    },
+    {
+      "name": "about",
+      "path": "/about",
+      "title": "关于",
+      "icon": "",
+      "noMultilevel": true,
+      "component": "Layout",
+      "children": [
+        {
+          "name": "about",
+          "path": "/about",
+          "title": "关于",
+          "icon": "",
+          "component": "about/index"
+        }
+      ]
+    }
+  ]
+}

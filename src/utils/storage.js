@@ -5,7 +5,8 @@ export const setLocal = (key, val) => {
 
 // 获取永久缓存
 export const getLocal = key => {
-  return localStorage.getItem(key)
+  const json = localStorage.getItem(key)
+  return JSON.parse(json)
 }
 
 // 移除永久缓存

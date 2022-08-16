@@ -1,6 +1,6 @@
 import { setLocal, getLocal, removeLocal, clearLocal } from '@/utils/storage'
 import { constantRoutes } from '@/router/constant-routes'
-// import { dynamicRoutes } from '@/router/dynamic-router'
+import { dynamicRoutes } from '@/router/dynamic-router'
 import { fetchMemu } from '@/api/index'
 
 const permission = {
@@ -23,26 +23,26 @@ const permission = {
     }
   },
   actions: {
-    // // 根据权限生成菜单
-    // async generateRouter({ commit }) {
-    //   // 获取路由数据
-    //   const { data: asyncRoutes } = await fetchMemu()
-    //   // 筛选匹配路由
-    //   let accessedRouters = filterAsyncRoutes(asyncRoutes, dynamicRoutes)
-    //   // 全部路由
-    //   commit('SET_ROUTES', accessedRouters)
-    //   return accessedRouters
-    // },
     // 根据权限生成菜单
     async generateRouter({ commit }) {
       // 获取路由数据
       const { data: asyncRoutes } = await fetchMemu()
-      // 组装路由
-      const accessedRouters = formatRoute(asyncRoutes)
+      // 筛选匹配路由
+      let accessedRouters = filterAsyncRoutes(asyncRoutes, dynamicRoutes)
       // 全部路由
       commit('SET_ROUTES', accessedRouters)
       return accessedRouters
     },
+    // // 根据权限生成菜单
+    // async generateRouter({ commit }) {
+    //   // 获取路由数据
+    //   const { data: asyncRoutes } = await fetchMemu()
+    //   // 组装路由
+    //   const accessedRouters = formatRoute(asyncRoutes)
+    //   // 全部路由
+    //   commit('SET_ROUTES', accessedRouters)
+    //   return accessedRouters
+    // },
     // 退出登录
     logout(context) {
       setTimeout(() => {

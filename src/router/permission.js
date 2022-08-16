@@ -28,6 +28,7 @@ router.beforeEach((to, from, next) => {
             routes.forEach(route => {
               router.addRoute(route)
             })
+            console.log(router.getRoutes());
             // hack方法 确保 addRoute 已完成
             next({ ...to, replace: true })
           })

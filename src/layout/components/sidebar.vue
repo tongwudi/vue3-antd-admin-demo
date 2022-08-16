@@ -7,35 +7,59 @@
     @click="handleClickMenu"
     @openChange="openChangeMenu"
   >
-    <template v-for="route in routes.filter(i => !i.hidden)" :key="route.path">
-      <SidebarItem :item="route" :parent-path="route.path" />
+    <template v-for="menu in menus">
+      <SidebarItem :menu="menu" :parent-path="menu.path" />
     </template>
   </a-menu>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-// import { useRouter } from 'vue-router'
+<script>
+import { ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
-import SidebarItem from './sidebarItem.vue'
+import { useRouter, useRoute } from 'vue-router'
 import { setLocal } from '@/utils/storage'
+import SidebarItem from './sidebarItem.vue'
 
-const { state } = useStore()
-const routes = computed(() => state.permission.routes)
-// const { options } = useRouter()
-// const routes = options.routes
+export default {
+  components: { SidebarItem },
+  setup() {
+    const openKeys = ref(JSON.parse(localStorage.getItem('openKeys')) || [])
+    const selectedKeys = ref(
+      [JSON.parse(localStorage.getItem('selectedKeys'))] || []
+    )
 
-const openKeys = ref(JSON.parse(localStorage.getItem('openKeys')) || [])
-const selectedKeys = ref(
-  [JSON.parse(localStorage.getItem('selectedKeys'))] || []
-)
+    const { state } = useStore()
+    const menus = computed(() => {
+      return state.permission.routes.filter(i => !i.hidden)
+    })
 
-const openChangeMenu = openKeys => {
-  setLocal('openKeys', openKeys)
-}
+    const router = useRouter()
+    const currentRoute = useRoute()
 
-const handleClickMenu = ({ key }) => {
-  setLocal('selectedKeys', key)
+    const openChangeMenu = openKeys => {
+      setLocal('openKeys', openKeys)
+    }
+
+    const handleClickMenu = ({ key }) => {
+      console.log(key)
+      if (key === currentRoute.path) return
+
+      if (/http(s)?:/.test(key)) {
+        window.open(key)
+      } else {
+        router.push({ path: key })
+      }
+      setLocal('selectedKeys', key)
+    }
+
+    return {
+      openKeys,
+      selectedKeys,
+      menus,
+      openChangeMenu,
+      handleClickMenu
+    }
+  }
 }
 </script>
 
