@@ -7,6 +7,7 @@
       v-model:activeKey="activeKey"
       :tabBarGutter="7"
       @edit="closeTag"
+      @change="changeTag"
     >
       <template v-for="pane in panes" :key="pane.key">
         <a-tab-pane :closable="pane.closable" :tab="pane.title" />
@@ -17,22 +18,41 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const activeKey = ref('1')
 const panes = ref([
-  { title: 'Tab 1', content: 'Content of Tab 1', key: '1' },
-  { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
-  { title: 'Tab 3', content: 'Content of Tab 3', key: '3' }
+  { title: 'Tab 1', key: '1' },
+  { title: 'Tab 2', key: '2' },
+  { title: 'Tab 3', key: '3' }
 ])
+const route = useRoute()
+const router = useRouter()
 
-// const addTag = () => {
-//   activeKey.value = `newTab${++newTabIndex.value}`
-//   panes.value.push({
-//     title: 'New Tab',
-//     content: 'Content of new Tab',
-//     key: activeKey.value
-//   })
-// }
+watch(route, () => {
+  if (!route.name) return
+
+  // 判断是否存在，不存在则新增，存在则跳转
+  if (panes.value.some(v => v.key === route.path)) {
+    console.log(11)
+    activeKey.value = route.path
+  } else {
+    console.log(22)
+    addTag(route)
+  }
+})
+
+const addTag = route => {
+  activeKey.value = route.path
+  panes.value.push({
+    title: route.meta?.title,
+    key: route.path
+  })
+}
+const changeTag = activeKey => {
+  console.log(activeKey)
+  router.push(activeKey)
+}
 
 const closeTag = targetKey => {
   let lastIndex = 0
