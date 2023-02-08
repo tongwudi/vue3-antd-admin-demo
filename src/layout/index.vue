@@ -16,7 +16,16 @@
       </a-layout-header>
       <a-layout-content>
         <Tabbar />
-        <router-view />
+        <router-view #default="{ Component }">
+          <keep-alive>
+            <Suspense>
+              <component :is="Component"></component>
+              <template #fallback>
+                <h3>稍等，加载中...</h3>
+              </template>
+            </Suspense>
+          </keep-alive>
+        </router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
