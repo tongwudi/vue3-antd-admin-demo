@@ -7,21 +7,19 @@ import NotFound from '@/views/errorPage/404.vue'
 export const constantRoutes = [
   {
     path: '/login',
-    name: 'Login',
     meta: { title: '登录' },
     component: Login,
     hidden: true
   },
   {
     path: '/',
-    name: 'Home',
     meta: { title: '首页', icon: '', noMultilevel: true },
     component: Layout,
     redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
-        name: 'dashboard',
+        name: 'Dashboard',
         meta: { title: '首页' },
         component: () =>
           import(/* webpackChunkName: "index" */ '@/views/dashboard/index.vue')
